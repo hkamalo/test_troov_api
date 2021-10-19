@@ -13,7 +13,7 @@ const getObjectList = () => ObjectModel.find({});
 
 const updateObject = (ObjectId, elementToChange) => ObjectModel.updateOne({id: ObjectId}, elementToChange)
 
-const deleteObject = (ObjectId) => ObjectModel.remove({id: ObjectId})
+const deleteObject = (ObjectId) => ObjectModel.findByIdAndDelete(ObjectId)
 
 module.exports = {
   createNewObject,

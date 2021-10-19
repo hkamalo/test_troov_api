@@ -1,19 +1,18 @@
 const authentificationRouter = require('express').Router();
 const UserModel = require('../mongoDB/models/UserModel');
 
-
 authentificationRouter.post('/login', async (req, res) => {
-  const { username: givenUsername, password: givenPassword } = req.body;
+  const { email: inputEmail, password: clearPassword } = req.body;
 
   // check the inputs validity
-  const checkedUserInDB = await UserModel.findUsernameInDB(givenUsername);
+  const checkedUserInDB = await UserModel.findUsernameInDB(inputEmail);
 
   if (!checkedUserInDB) return res.status(401).send('Invalid Credentials');
 
   const { hashedPassword } = checkedUserInDB;
 
   const isPasswordCorrect = await UserModel.verifyPassword(
-    givenPassword,
+    clearPassword,
     hashedPassword
   );
 
