@@ -1,6 +1,5 @@
 require('dotenv').config();
 const express = require('express');
-const mongoDbconnection = require('./mongoDB/config/dbconfig');
 
 const app = express();
 app.use(express.json());
@@ -34,11 +33,9 @@ process.on('beforeExit', () => {
 // ------------------------- Api Lunching ------------------------------------------- //
 
     // Connect to MongoDB database
-    mongoDbconnection.then(() =>
       app.listen(PORT, () =>
         console.log(`Server running on port ${PORT} and listen the DB`)
-      )
-    );
+      );
 
     // init router
     require('./routes/routerIndex')(app);

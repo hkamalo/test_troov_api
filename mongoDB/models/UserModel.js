@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const argon2 = require('argon2');
 
-const mongoDbconnection = '../config/dbconfig.js';
+const mongoDbconnection = require('../config/dbconfig.js');
 
 // initialize the model
 const UserSchema = new mongoose.Schema({
