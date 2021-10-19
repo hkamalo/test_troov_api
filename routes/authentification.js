@@ -7,7 +7,7 @@ authentificationRouter.post('/login', async (req, res) => {
     const {username: givenUsername, password: givenPassword} = req.body;
     
     
-   
+ 
 
 });
 
