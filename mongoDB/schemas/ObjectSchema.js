@@ -4,8 +4,7 @@ const ObjectSchema = new mongoose.Schema({
   userId: mongoose.ObjectId,
   name: String,
   description: String,
-  lossAdress: String,
-  lossDate: Date,
+  lostDetails: { adress: String, date: Date },
   ticketCreatedAt: Date,
 });
 
