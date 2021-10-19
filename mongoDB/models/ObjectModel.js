@@ -9,7 +9,7 @@ const createNewObject = async (ObjectToStore) => {
   return newObject;
 };
 
-const findObject = () => ObjectModel.find({});
+const getObjectList = () => ObjectModel.find({});
 
 const updateObject = (ObjectId, elementToChange) => ObjectModel.updateOne({id: ObjectId}, elementToChange)
 
@@ -17,7 +17,7 @@ const deleteObject = (ObjectId) => ObjectModel.remove({id: ObjectId})
 
 module.exports = {
   createNewObject,
-  findObject,
+  getObjectList,
   updateObject,
   deleteObject
 };
