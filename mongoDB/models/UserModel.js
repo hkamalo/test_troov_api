@@ -26,11 +26,16 @@ const verifyPassword = (plainPassword, hashedPassword) =>
   argon2.verify(hashedPassword, plainPassword, hashingOptions);
 
 // user helpers
-const createNewUser = async (inputUsername, inputHashedPassword) => {
-  await UserModel.create({
+const createNewUser = async (inputUsername, inputPassword) => {
+
+ const hashedPassword = await hashPassword(inputPassword);
+
+  const newUser = await UserModel.create({
     username: inputUsername,
-    hashedPassword: inputHashedPassword,
+    hashedPassword,
   });
+
+  return newUser;
 };
 
 const findUsernameInDB = async (inputUsername) => {
