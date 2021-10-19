@@ -4,9 +4,10 @@ const UserModel = require('../mongoDB/models/UserModel');
 
 
 authentificationRouter.post('/login', async (req, res) => {
-    const {username: inputUsername, password: inputPassword} = req.body;
+    const {username: givenUsername, password: givenPassword} = req.body;
     
-
+    
+   
 
 });
 

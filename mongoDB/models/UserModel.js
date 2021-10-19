@@ -1,15 +1,15 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const argon2 = require('argon2');
-const mongoDbconnection = ('../config/dbconfig.js');
+
+const mongoDbconnection = '../config/dbconfig.js';
 
 // initialize the model
 const UserSchema = new mongoose.Schema({
-	username: String,
-    hashedPassword: String,
+  username: String,
+  hashedPassword: String,
 });
 
-const UserModel = mongoDbconnection.model("User", UserSchema);
-
+const UserModel = mongoDbconnection.model('User', UserSchema);
 
 // password helpers
 const hashingOptions = {
@@ -25,13 +25,25 @@ const hashPassword = (plainPassword) =>
 const verifyPassword = (plainPassword, hashedPassword) =>
   argon2.verify(hashedPassword, plainPassword, hashingOptions);
 
-
 // user helpers
-const createNewUser = (inputUsername, inputHashedPassword) =>
-  UserModel
-  .create({
-    username: inputUsername, hashedPassword: inputHashedPassword,
-  }, (err) => { 
-    if (err) return handleError(err);
+const createNewUser = async (inputUsername, inputHashedPassword) => {
+  await UserModel.create({
+    username: inputUsername,
+    hashedPassword: inputHashedPassword,
   });
+};
 
+const findUsernameInDB = async (inputUsername) => {
+  await UserModel.findOne({ username: inputUsername }).exec();
+};
+
+const usernameAlreadyInDB = async (newUsername) =>
+  !!(await findUsernameInDB(newUsername));
+  
+module.exports = {
+  findUsernameInDB,
+  hashPassword,
+  verifyPassword,
+  createNewUser,
+  usernameAlreadyInDB,
+};
