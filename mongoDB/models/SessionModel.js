@@ -3,6 +3,6 @@ const mongoDbconnection = require('../config/dbconfig.js');
 
 const SessionModel = mongoDbconnection.model('Session', SessionSchema);
 
+const findSession = (sessionId) => SessionModel.findById(sessionId).exec();
 
-
-module.exports = SessionModel;
+module.exports = { findSession };
