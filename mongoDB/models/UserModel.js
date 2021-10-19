@@ -1,14 +1,9 @@
-const mongoose = require('mongoose');
 const argon2 = require('argon2');
-
 const mongoDbconnection = require('../config/dbconfig.js');
+const UserSchema = require('../schemas/UserSchema');
+
 
 // initialize the model
-const UserSchema = new mongoose.Schema({
-  username: String,
-  hashedPassword: String,
-});
-
 const UserModel = mongoDbconnection.model('User', UserSchema);
 
 // password helpers
