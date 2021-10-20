@@ -27,4 +27,12 @@ authentificationRouter.post('/login', async (req, res) => {
   });
 });
 
+authentificationRouter.get('/logout', async (req, res) => {
+  req.session.destroy((err) => {
+    if (err) return res.status(400).send('Could not destroy session');
+    res.clearCookie("sessionId", { domain:'localhost' });
+    return res.status(200).send('session deleted');
+  });
+});
+
 module.exports = authentificationRouter;

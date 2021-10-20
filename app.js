@@ -38,6 +38,7 @@ process.on('beforeExit', () => {
 // session init
 app.use(
   session({
+    key: 'sessionId',
     secret: 'abcd',
     maxAge: new Date(Date.now() + 3600000),
     store: MongoStore.create(sessionConfig),
