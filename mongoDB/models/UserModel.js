@@ -23,8 +23,8 @@ const verifyPassword = (clearPassword, hashedPassword) =>
 const createNewUser = async (
   firstname,
   lastname,
+  location,
   email,
-  adress,
   clearPassword
 ) => {
   const hashedPassword = await hashPassword(clearPassword);
@@ -32,20 +32,23 @@ const createNewUser = async (
   const newUser = await UserModel.create({
     firstname,
     lastname,
+    location: {
+      adress: location.adress,
+      city: location.city,
+      postcode: location.postcode,
+      country: location.country,
+    },
     email,
-    adress,
     hashedPassword,
   });
 
   return newUser;
 };
 
-const findUserInDB = async (email) => {
-  await UserModel.findOne({ email }).exec();
-};
+const findUserInDB = (inputEmail) => 
+  UserModel.findOne({ email: inputEmail}).exec();
 
-const userAlreadyInDB = async (email) =>
-  !!(await findUserInDB(email));
+const userAlreadyInDB = async (inputEmail) => !!(await findUserInDB(inputEmail));
 
 module.exports = {
   findUserInDB,
