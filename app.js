@@ -1,7 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
-const { MongoSessionStoring } = require('./mongoDB/config/dbconfig');
+const MongoStore = require('connect-mongo').default;
+const { sessionConfig } = require('./mongoDB/config/dbconfig');
 
 const app = express();
 app.use(express.json());
@@ -29,12 +30,18 @@ process.on('beforeExit', () => {
   });
 });
 
+
+
+
+// ------------------------- Api Lunching ------------------------------------------- //
+
 // session init
 app.use(
   session({
     secret: 'abcd',
     maxAge: new Date(Date.now() + 3600000),
-    store: MongoSessionStoring,
+    store: MongoStore.create(sessionConfig),
+    resave: true,
     cookie: {
       domain: 'localhost',
       sameSite: true,
@@ -43,14 +50,10 @@ app.use(
   })
 );
 
+// init router
+require('./routes/routerIndex')(app);
 
-
-// ------------------------- Api Lunching ------------------------------------------- //
-
-    // Connect to MongoDB database
-      app.listen(PORT, () =>
-        console.log(`Server running on port ${PORT} and listen the DB`)
-      );
-
-    // init router
-    require('./routes/routerIndex')(app);
+// init server
+app.listen(PORT, () =>
+console.log(`Server running on port ${PORT} and listen the DB`)
+);

@@ -1,9 +1,10 @@
 const argon2 = require('argon2');
-const mongoDbconnection = require('../config/dbconfig.js');
+const { mongoDbConnection } = require('../config/dbconfig');
 const UserSchema = require('../schemas/UserSchema');
 
+
 // initialize the model
-const UserModel = mongoDbconnection.model('User', UserSchema);
+const UserModel = mongoDbConnection.model('User', UserSchema);
 
 // password helpers
 const hashingOptions = {
@@ -45,10 +46,11 @@ const createNewUser = async (
   return newUser;
 };
 
-const findUserInDB = (inputEmail) => 
-  UserModel.findOne({ email: inputEmail}).exec();
+const findUserInDB = (inputEmail) =>
+  UserModel.findOne({ email: inputEmail }).exec();
 
-const userAlreadyInDB = async (inputEmail) => !!(await findUserInDB(inputEmail));
+const userAlreadyInDB = async (inputEmail) =>
+  !!(await findUserInDB(inputEmail));
 
 module.exports = {
   findUserInDB,

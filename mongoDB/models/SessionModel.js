@@ -1,7 +1,7 @@
 const SessionSchema = require('../schemas/SessionSchema');
-const mongoDbconnection = require('../config/dbconfig.js');
+const {mongoDbConnection} = require('../config/dbconfig.js');
 
-const SessionModel = mongoDbconnection.model('Session', SessionSchema);
+const SessionModel = mongoDbConnection.model('Session', SessionSchema);
 
 const findSession = (sessionId) => SessionModel.findById(sessionId).exec();
 

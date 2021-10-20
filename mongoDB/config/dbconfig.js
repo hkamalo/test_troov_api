@@ -1,15 +1,12 @@
-const MongoStore = require('connect-mongo').default;
 const mongoose = require('mongoose');
 
 /* ----------------------- DB CONNECTION -----------------------------------------*/
 
 // session config
 const sessionConfig = {
-    mongoUrl: 'mongodb://localhost:27017/troovDB',
-    collectionName: 'Session',
-  }
-
-const MongoSessionStoring = MongoStore.create(sessionConfig);
+  mongoUrl: 'mongodb://localhost:27017/troovDB',
+  collectionName: 'Session',
+};
 
 // init db connection
 const mongoDbConnection = mongoose.createConnection(
@@ -20,4 +17,4 @@ const mongoDbConnection = mongoose.createConnection(
   }
 );
 
-module.exports = { mongoDbConnection, MongoSessionStoring };
+module.exports = { mongoDbConnection, sessionConfig };
