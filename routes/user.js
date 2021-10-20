@@ -4,7 +4,7 @@ const ObjectModel = require('../mongoDB/models/ObjectModel');
 // object creation
 UserRouter.post('/:userId/object', async (req, res) => {
   const { userId } = req.params;
-  const { name, description, lostDetails, ticketCreatedAt } = req.body;
+  const { name, description, lostDetails} = req.body;
 
   try {
     const newObject = await ObjectModel.createNewObject(
@@ -12,7 +12,6 @@ UserRouter.post('/:userId/object', async (req, res) => {
       name,
       description,
       lostDetails,
-      ticketCreatedAt
     );
     return res.status(200).send(`object stored :${newObject}`);
   } catch (error) {
@@ -20,11 +19,23 @@ UserRouter.post('/:userId/object', async (req, res) => {
   }
 });
 
+// get user's objects list
+UserRouter.get('/:userId/object', async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const objectsList = await ObjectModel.getObjectList(userId);
+    return res.status(200).send(`list of objects :${objectsList}`);
+  } catch (error) {
+    return res.status(401).send(`error : ${error}`);
+  }
+});
+
 // object update
 UserRouter.patch('/:userId/object/:objectId', async (req, res) => {
   const { userId } = req.params;
   const { objectId } = req.params;
-  const { name, description, lostDetails} = req.body;
+  const { name, description, lostDetails } = req.body;
 
   try {
     const updatedObject = await ObjectModel.updateObject(userId, objectId, {
@@ -38,16 +49,16 @@ UserRouter.patch('/:userId/object/:objectId', async (req, res) => {
   }
 });
 
-// get user's objects list
-
-UserRouter.get('/:userId/object', async (req, res) => {
+// delete user's objects list
+UserRouter.delete('/:userId/object/:objectId', async (req, res) => {
   const { userId } = req.params;
+  const { objectId } = req.params;
 
   try {
-    const objectsList = await ObjectModel.getObjectList(userId);
-    return res.status(200).send(`list of objects :${objectsList}`);
+    const deletedObject = await ObjectModel.deleteObject(userId, objectId);
+    return res.status(200).send(`object deleted :${deletedObject}`);
   } catch (error) {
-    return res.status(401).send(`error : ${error}`);
+    return res.status(401).send(`error in deleting object : ${error}`);
   }
 });
 

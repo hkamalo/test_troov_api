@@ -1,6 +1,7 @@
 const authentificationRouter = require('express').Router();
 const UserModel = require('../mongoDB/models/UserModel');
 
+
 authentificationRouter.post('/login', async (req, res) => {
   const { email: inputEmail, password: clearPassword } = req.body;
 

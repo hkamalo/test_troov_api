@@ -1,14 +1,13 @@
 const ObjectSchema = require('../schemas/ObjectSchema');
 const { mongoDbConnection } = require('../config/dbconfig.js');
 
-const ObjectModel = mongoDbConnection.model('Session', ObjectSchema);
+const ObjectModel = mongoDbConnection.model('Object', ObjectSchema);
 
 const createNewObject = async (
   userId,
   name,
   description,
   lostDetails,
-  ticketCreatedAt
 ) => {
   const newObject = await ObjectModel.create({
     userId,
@@ -16,20 +15,28 @@ const createNewObject = async (
     description,
     lostDetails: {
       adress: lostDetails.adress,
-      date: lostDetails.date,
+      date: new Date(lostDetails.date[0], lostDetails.date[1],lostDetails.date[2], ),
     },
-    ticketCreatedAt,
+    ticketCreatedAt: new Date(),
   });
 
   return newObject;
 };
 
-const getObjectList = (inputUserID) => ObjectModel.find({userID: inputUserID}).exec();
+const getObjectList = (inputUserID) =>
+  ObjectModel.find({ userID: inputUserID }).exec();
 
 const updateObject = (inputUserId, inputObjectId, elementToChange) =>
-  ObjectModel.updateOne({ id: inputObjectId, userId: inputUserId }, elementToChange).exec();
+  ObjectModel.updateOne(
+    { id: inputObjectId, userId: inputUserId },
+    elementToChange
+  ).exec();
 
-const deleteObject = (ObjectId) => ObjectModel.findByIdAndDelete(ObjectId).exec();
+const deleteObject = (inputUserId, inputObjectId) =>
+  ObjectModel.deleteOne({
+    id: inputObjectId,
+    userId: inputUserId,
+  }).exec();
 
 module.exports = {
   createNewObject,
