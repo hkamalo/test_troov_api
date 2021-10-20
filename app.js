@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
+const { MongoSessionStoring } = require('./mongoDB/config/dbconfig');
 
 const app = express();
 app.use(express.json());
@@ -28,7 +29,19 @@ process.on('beforeExit', () => {
   });
 });
 
-
+// session init
+app.use(
+  session({
+    secret: 'abcd',
+    maxAge: new Date(Date.now() + 3600000),
+    store: MongoSessionStoring,
+    cookie: {
+      domain: 'localhost',
+      sameSite: true,
+      httpOnly: true,
+    },
+  })
+);
 
 
 
