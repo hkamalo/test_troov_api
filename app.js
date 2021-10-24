@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const session = require('express-session');
 const MongoStore = require('connect-mongo').default;
 const { sessionConfig } = require('./mongoDB/config/dbconfig');
@@ -9,8 +10,13 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
 
-
 // ------------------------- Security ------------------------------------------- //
+// cors allowed
+const corsOptions = {
+  origin: 'http://localhost:3000',
+};
+
+app.use(cors(corsOptions));
 
 // app settings
 app.set('x-powered-by', false); // for security
@@ -29,9 +35,6 @@ process.on('beforeExit', () => {
     if (error) console.error(JSON.stringify(error), error.stack);
   });
 });
-
-
-
 
 // ------------------------- Api Lunching ------------------------------------------- //
 
@@ -56,5 +59,5 @@ require('./routes/routerIndex')(app);
 
 // init server
 app.listen(PORT, () =>
-console.log(`Server running on port ${PORT} and listen the DB`)
+  console.log(`Server running on port ${PORT} and listen the DB`)
 );
