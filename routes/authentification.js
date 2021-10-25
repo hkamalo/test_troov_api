@@ -25,7 +25,7 @@ authentificationRouter.post('/login', async (req, res) => {
   req.session.userId = checkedUserInDB.id;
   
   return req.session.save(() => {
-    res.status(200).send('Valid Credentials');
+    res.status(200).send(req.session);
   });
 });
 

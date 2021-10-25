@@ -13,19 +13,20 @@ UserRouter.post('/:userId/object', async (req, res) => {
       description,
       lostDetails,
     );
-    return res.status(200).send(`object stored :${newObject}`);
+    return res.status(200).send(newObject);
   } catch (error) {
-    return res.status(401).send(`error in object creation : ${error}`);
+    return res.status(401).send(error);
   }
 });
 
 // get user's objects list
 UserRouter.get('/:userId/object', async (req, res) => {
   const { userId } = req.params;
-
+  console.log(userId);
+  
   try {
     const objectsList = await ObjectModel.getObjectList(userId);
-    return res.status(200).send(`list of objects :${objectsList}`);
+    return res.status(200).send(objectsList);
   } catch (error) {
     return res.status(401).send(`error : ${error}`);
   }
